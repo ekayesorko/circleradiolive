@@ -1,0 +1,11 @@
+<div class = "ui segment">
+  <form action="{% url 'radio:post_upload_view'%}" method = "POST" class="ui form">
+  {% csrf_token %}
+    <h3>Post your favorite song for your friends to enjoy</h3>
+    <div class="ui fluid labeled action input">
+      <div class = "ui label">youtube.com/watch?v=</div>
+      <input type="text" name="yt_code" placeholder="Youtube Video ID" size = "11" maxlength = "11">
+      <button action = "submit" class="ui button grey">Post</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,22 @@
+<div class="ui secondary pointing massive menu">
+  <a href="{%url 'radio:home_radio_view' %}" class="ui {% if title == 'home' %} active{% endif %} item">
+    Home
+  </a>
+  <a href=" {% url 'radio:user_radio_view' request.user.username %}" class="ui {% if title == 'profile' %} active{% endif %} item">
+    Profile
+  </a>
+  <a class="ui {% if title == 'friends' %} active{% endif %} item" href = " {% url 'profiles:friends_view' %}">
+    Friends
+  </a>
+  <div class="right menu">
+    <div class="item">
+      <div class="ui icon input">
+        <input type="text" placeholder="It doesn't work yet. xD">
+        <i class="search link icon"></i>
+      </div>
+    </div>
+    <a href="{% url 'profiles:logout_view' %}" class="ui item">
+      Logout
+    </a>
+  </div>
+</div>

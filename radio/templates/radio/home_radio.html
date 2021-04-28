@@ -1,0 +1,31 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+    <div class = "ui sixteen column centered grid">
+        {% include 'radio/post_song.html' %}
+        
+        <div class = "ui ten column row">
+            <div id="player" class = ""></div>
+        </div>
+        <div class = "ui ten column row icon message big">
+            <img src = "" alt = "photo" class = "ui tiny circular image" id = "author_image"> 
+            <p id = "author_username"></p>
+        </div>
+    </div>
+
+    <script>
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        var videoIDs = [];
+        var authorList = [];
+        var authorImageList = [];
+        {% for post in posts %}
+            videoIDs.push( '{{ post.yt_code }}' );
+            authorList.push( ' {{ post.author.username }}');
+            authorImageList.push('{{post.author.profile.photo.url}}');
+        {% endfor %}
+        var player, currentVideoId = 0;    
+    </script>
+{% endblock content %}

@@ -1,0 +1,40 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+    <div class = "ui grid sixteen column centered">
+        <div class = "ui four wide column">
+            <p class = "ui attached message"> Log In to your account </p>
+            {% if errors %}
+                {% for error in errors %}
+                    {{error}}
+                {% endfor %}
+            {% endif %}
+            <form method="POST" action="" class = "ui form attached segment">
+            {%csrf_token%}
+            <div class = "field">
+                <label for="input">Username</label>
+                <input type = "text" name="username">
+            </div>
+            <div class = "field">
+                <label for="password">Password</label>
+                <input name="password" type="password">
+            </div>
+            <button class = "ui green submit button" type = "submit"> Log In</button>
+            </form>
+            <div class="ui bottom attached message">
+                Don't have an account? <a href="{% url 'profiles:signup_view' %}">Sign Up here</a> instead.
+            </div>
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{message}}</p>
+                {% endfor %}
+            {% endif %}
+            {% if errors %}
+            {% for error in errors %}
+                {{error}}
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    
+{% endblock content %}

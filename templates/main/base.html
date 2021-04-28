@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    
+    <link rel = "stylesheet" type="text/css" href="{% static 'style.css' %}" >
+    
+    <link rel="stylesheet" type='text/css' href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+    
+    <title>CircleRadio</title>
+</head>
+<body>
+    {% if request.user.is_authenticated %}
+        {% include 'main/navbar.html' %}
+    {% endif %}
+    {% block content %}
+    {% endblock content %}
+    <script type="text/javascript" src = {% static 'main.js' %} ></script>
+</body>
+</html>

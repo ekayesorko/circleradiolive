@@ -1,0 +1,109 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <div class = "ui grid centered padded segment">
+        <div class = "four wide column cards">
+            <h2>People you may know</h2>
+            {% for user in people_you_may_know %}
+                <div class = "ui card">
+                    <div class = "content">
+                        <img src="{{user.profile.photo.url}}" alt="propic" class = "right floated tiny circular ui image">
+                        <div class = "header">
+                            <a href="">@{{user.username}}</a>
+                        </div>
+                        <div class = "description">
+                            Nothing to say
+                        </div>
+                    </div>
+        
+                    <div class = "ui extra content">
+                        <form action="{% url 'profiles:add_friend_view' %}" method = "POST">
+                            {% csrf_token %}
+                            <input type="hidden" name = "receiver_username" value = "{{user.username}}">
+                            <input type="submit" value = "Add Friend" class = "ui green fluid button">
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class = "four wide column">
+            <h2>Friend List</h2>
+            {% for user in friend_list %}
+                <div class = "ui card">
+                    <div class = "content">
+                        <img src="{{user.profile.photo.url}}" alt="propic" class = "right tiny floated circular ui image">
+                        <div class = "header">
+                            <a href="">{{user.username}}</a>
+                        </div>
+                        <div class = "description">
+                            Nothing to say
+                        </div>
+                    </div>
+        
+                    <div class = "ui extra content">
+                        <form action="{% url 'profiles:remove_friend_view' %}" method = "POST">
+                            {% csrf_token %}
+                            <input type="hidden" name = "friend_username" value = "{{user.username}}">
+                            <input type="submit" value = "Remove Friend" class = "ui red fluid button">
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class = "four wide column">
+            <h2>Friend Request</h2>
+            {% for user in friend_request_list %}
+                <div class = "ui card">
+                    <div class = "content">
+                        <img src="{{user.profile.photo.url}}" alt="propic" class = "right tiny floated circular ui image">
+                        <div class = "header">
+                            <a href="">{{user.username}}</a>
+                        </div>
+                        <div class = "description">
+                            Nothing to say
+                        </div>
+                    </div>
+        
+                    <div class = "ui extra content">
+                         <form action="{% url 'profiles:accept_friend_view' %}" method = "POST">
+                            {% csrf_token %}
+                            <input type="hidden" name = "friend_username" value = "{{user.username}}">
+                            <input type="submit" value = "Accept Friend Request" class = "ui fluid green button">
+                        </form>
+                        <form action="{% url 'profiles:remove_friend_view' %}" method = "POST">
+                            {% csrf_token %}
+                            <input type="hidden" name = "friend_username" value = "{{user.username}}">
+                            <input type="submit" value = "Remove Friend Request" class = "ui fluid red button">
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class = "four wide column">
+            <h2> Sent Friend Requests</h2>
+            {% for user in sent_friend_request_list %}
+                <div class = "ui card">
+                    <div class = "content">
+                        <img src="{{user.profile.photo.url}}" alt="propic" class = "right tiny floated circular ui image">
+                        <div class = "header">
+                            <a href="">{{user.username}}</a>
+                        </div>
+                        <div class = "description">
+                            Nothing to say
+                        </div>
+                    </div>
+        
+                    <div class = "ui extra content">
+                        <form action="{% url 'profiles:remove_friend_view' %}" method = "POST">
+                            {% csrf_token %}
+                            <input type="hidden" name = "friend_username" value = "{{user.username}}">
+                            <input type="submit" value = "Remove Friend" class = "ui red fluid button">
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock content %}

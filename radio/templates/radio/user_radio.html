@@ -1,0 +1,22 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+    <div class = "ui sixteen column centered grid">
+        <div class = "ui ten column row">
+            <div id="player" class = ""></div>
+        </div>
+    </div>
+
+    <script>
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        var videoIDs = [];
+        {% for post in posts %}
+            videoIDs.push( '{{ post.yt_code }}' );
+        {% endfor %}
+        var player, currentVideoId = 0;    
+    </script>
+{% endblock content %}
+
