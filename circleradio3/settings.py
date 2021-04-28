@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '9$4kakyk=-r6=iq%@kh&-yiplbs#w%(8r1vw886vb-tjtpcnjr'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['circleradio.herokuapp.com', 'localhost']
 
