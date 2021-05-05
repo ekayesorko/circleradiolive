@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import os 
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '9$4kakyk=-r6=iq%@kh&-yiplbs#w%(8r1vw886vb-tjtpcnjr'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['circleradio.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['circleradio.herokuapp.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -39,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'profiles',
-    'radio'
+    'radio',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -128,9 +130,12 @@ MEDIA_URL = '/media/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static_project'),
 ]
+if DEBUG == True:
+    STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn", "static_root")
+    MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn", "media_root")
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, "static_cdn", "static_root")
+    MEDIA_ROOT = os.path.join(BASE_DIR, "static_cdn", "media_root")
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static_cdn", "static_root")
-
-MEDIA_ROOT = os.path.join(BASE_DIR, "static_cdn", "media_root")
 
 LOGIN_URL = 'profiles:login_view'

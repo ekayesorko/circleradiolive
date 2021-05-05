@@ -7,7 +7,7 @@ from radio.views import (
 app_name = 'radio'
 
 urlpatterns = [
-    path('home/', home_radio_view, name = 'home_radio_view'),
+    path('', home_radio_view, name = 'home_radio_view'),
     path('post_upload', post_upload_view, name = 'post_upload_view'),    
     path('user/<str:username>/', user_radio_view, name = 'user_radio_view'),
 ]

@@ -7,9 +7,8 @@
         <div class = "ui ten column row">
             <div id="player" class = ""></div>
         </div>
-        <div class = "ui ten column row icon message big">
-            <img src = "" alt = "photo" class = "ui tiny circular image" id = "author_image"> 
-            <p id = "author_username"></p>
+        <div class = "ui bottom attached message big"> 
+            <p>Suggested by <a href = "" id = "author_username"></a> </p>
         </div>
     </div>
 
@@ -20,12 +19,12 @@
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
         var videoIDs = [];
         var authorList = [];
-        var authorImageList = [];
+        var authorURLList = [];
         {% for post in posts %}
             videoIDs.push( '{{ post.yt_code }}' );
             authorList.push( ' {{ post.author.username }}');
-            authorImageList.push('{{post.author.profile.photo.url}}');
+            authorURLList.push('{% url 'radio:user_radio_view' post.author.username %}')
         {% endfor %}
-        var player, currentVideoId = 0;    
+        var player, currentVideoId = 0;
     </script>
 {% endblock content %}

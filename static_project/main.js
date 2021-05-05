@@ -36,8 +36,7 @@ function playVideo(videoIndex){
     player.playVideoAt(videoIndex);
 }
 function showMetaData(){
-    author_image = document.getElementById("author_image");
-    author_image.src = authorImageList[currentVideoId];
     author_username = document.getElementById("author_username");
-    author_username.innerHTML = "suggested by " + authorList[currentVideoId];
+    author_username.innerHTML =  authorList[currentVideoId];
+    author_username.setAttribute('href', authorURLList[currentVideoId] );
 }

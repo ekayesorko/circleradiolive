@@ -8,9 +8,8 @@
             {% for user in people_you_may_know %}
                 <div class = "ui card">
                     <div class = "content">
-                        <img src="{{user.profile.photo.url}}" alt="propic" class = "right floated tiny circular ui image">
                         <div class = "header">
-                            <a href="">@{{user.username}}</a>
+                            <a href="">{{user.username}}</a>
                         </div>
                         <div class = "description">
                             Nothing to say
@@ -32,7 +31,6 @@
             {% for user in friend_list %}
                 <div class = "ui card">
                     <div class = "content">
-                        <img src="{{user.profile.photo.url}}" alt="propic" class = "right tiny floated circular ui image">
                         <div class = "header">
                             <a href="">{{user.username}}</a>
                         </div>
@@ -56,7 +54,6 @@
             {% for user in friend_request_list %}
                 <div class = "ui card">
                     <div class = "content">
-                        <img src="{{user.profile.photo.url}}" alt="propic" class = "right tiny floated circular ui image">
                         <div class = "header">
                             <a href="">{{user.username}}</a>
                         </div>
@@ -85,7 +82,6 @@
             {% for user in sent_friend_request_list %}
                 <div class = "ui card">
                     <div class = "content">
-                        <img src="{{user.profile.photo.url}}" alt="propic" class = "right tiny floated circular ui image">
                         <div class = "header">
                             <a href="">{{user.username}}</a>
                         </div>
