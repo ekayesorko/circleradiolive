@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Profile(models.Model):
     user = models.OneToOneField(User, null = True, on_delete = models.CASCADE)
-    photo = models.ImageField(default = 'default_photo.jpg', upload_to = 'avatar/')
     bio = models.TextField(default = '')
     updated = models.DateTimeField(auto_now = True)
     created = models.DateTimeField(auto_now_add = True)
