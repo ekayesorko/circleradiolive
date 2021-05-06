@@ -78,17 +78,42 @@ WSGI_APPLICATION = 'circleradio3.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+# DATABASES = {
+
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'circleradio',
+#         'USER': 'orko',
+#         'PASSWORD': 'passwordnai',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'd8c3sbporl90rd',
+        'USER': 'opjugxdvfsdnxj',
+        'PASSWORD': '7b7ca1d5c85ed4719ecbfd5f19a6225bee932a0031373b0d29d2cf42a39ab07f',
+        'HOST': 'ec2-63-34-97-163.eu-west-1.compute.amazonaws.com',
+        'PORT': '5432',
+
     }
 }
 
-import dj_database_url
+# import dj_database_url
 
-db_from_env = dj_database_url.config(conn_max_age = 600)
-DATABASES['default'].update(db_from_env)
+# db_from_env = dj_database_url.config(conn_max_age = 600)
+# DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
