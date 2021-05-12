@@ -16,27 +16,57 @@ function onPlayerReady(event) {
     player.loadPlaylist( {
         playlist:videoIDs
     } );
-    showMetaData();
+    init(0);
 }
 
 function onPlayerStateChange(event) {
+    var currentVideoId = player.getPlaylistIndex();
     if (event.data == YT.PlayerState.ENDED) {
         if (currentVideoId < videoIDs.length - 1) {
-            currentVideoId++;
             player.nextVideo();
         }else{
-            currentVideoId = 0;
             player.playVideoAt(0);
         }
-    }else if(event.data == YT.PlayerState.PLAYING){
-        showMetaData();
     }
+    init(currentVideoId);
 }
+
 function playVideo(videoIndex){
     player.playVideoAt(videoIndex);
 }
-function showMetaData(){
+
+function init(videoIndex){
     author_username = document.getElementById("author_username");
-    author_username.innerHTML =  authorList[currentVideoId];
-    author_username.setAttribute('href', authorURLList[currentVideoId] );
+    var upperName = authorList[videoIndex].charAt(0).toUpperCase() + authorList[videoIndex].slice(1);
+    author_username.innerHTML =  upperName;
+    author_username.setAttribute('href', authorURLList[videoIndex] );
+    post_id = document.getElementById("remove_post_id");
+    post_id.value = postPKList[videoIndex];
+    var videoIDInput = document.getElementById("videoIDInput");
+    videoIDInput.value = "";
+    if (authorList[videoIndex] != username ) {
+        document.getElementById("removeButton").style.display = "none";
+        document.getElementById("shareButton").style.display = "inline";
+    }else{
+        document.getElementById("removeButton").style.display = "inline";
+        document.getElementById("shareButton").style.display = "none";
+    }
 }
+
+function playNext(){
+    var currentVideoId = player.getPlaylistIndex();
+    if (currentVideoId < videoIDs.length - 1) {
+        player.nextVideo();
+    }else{
+        player.playVideoAt(0);
+    }
+}
+
+$("#shareButton").click(function(){
+    var currentVideoId = player.getPlaylistIndex();
+    var videoID = videoIDs[currentVideoId];
+    var videoIDInput = document.getElementById("videoIDInput");
+    videoIDInput.value = videoID;
+    $("#videoIDInput").transition('tada');
+    $("#videoPostButton").transition('tada');
+});

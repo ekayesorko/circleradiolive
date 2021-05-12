@@ -3,7 +3,7 @@
     Home
   </a>
   <a href=" {% url 'radio:user_radio_view' request.user.username %}" class="ui {% if title == 'profile' %} active{% endif %} item">
-    Profile
+    {{request.user.username | capfirst}}
   </a>
   <a class="ui {% if title == 'friends' %} active{% endif %} item" href = " {% url 'profiles:friends_view' %}">
     Friends

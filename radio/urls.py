@@ -1,6 +1,6 @@
 from django.urls import path
 from radio.views import (
-    home_radio_view, post_upload_view, user_radio_view
+    home_radio_view, post_upload_view, user_radio_view, post_delete_view
 )
 
 
@@ -10,4 +10,5 @@ urlpatterns = [
     path('', home_radio_view, name = 'home_radio_view'),
     path('post_upload', post_upload_view, name = 'post_upload_view'),    
     path('user/<str:username>/', user_radio_view, name = 'user_radio_view'),
+    path('delete_post', post_delete_view, name = 'post_delete_view'),
 ]

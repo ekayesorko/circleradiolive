@@ -1,9 +1,12 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-    <div class = "ui grid sixteen column centered">
-        <div class = "ui four wide column">
-            <p class = "ui attached message"> Log In to your account </p>
+    <div class = "ui centered doubling grid">
+        <div class = "ui left aligned ten wide column">
+            <div class = "ui attached message">
+                <p class = "header"> Log In </p>
+                <p>Login to your existing account.</p> 
+            </div>
             {% if errors %}
                 {% for error in errors %}
                     {{error}}

@@ -4,8 +4,37 @@
     <h3>Post your favorite song for your friends to enjoy</h3>
     <div class="ui fluid labeled action input">
       <div class = "ui label">youtube.com/watch?v=</div>
-      <input type="text" name="yt_code" placeholder="Youtube Video ID" size = "11" maxlength = "11">
-      <button action = "submit" class="ui button grey">Post</button>
+      <input type="text" name="yt_code" placeholder="Youtube Video ID" size = "11" maxlength = "11" id = "videoIDInput">
+      <button onclick = "post()" type = "button" class="ui button grey" id = "videoPostButton">Post</button>
     </div>
   </form>
+  <div class = "ui tiny success message" id = "postMessage" style = "display : none">
+  
+  </div>
 </div>
+
+<script>
+    function post(){
+      var psm = document.getElementById("postMessage");
+      psm.innerHTML = "Posting song";
+      psm.style.display = "inline";
+      var ytCode = document.getElementById('videoIDInput').value;
+      var csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+      $.post(
+        "{% url 'radio:post_upload_view' %}",
+        {
+          yt_code : ytCode,
+          csrfmiddlewaretoken: csrfToken,
+        },
+        function(data, status){
+          if(data == "Okay"){
+            psm.innerHTML = "The song is posted";
+            document.getElementById('videoIDInput').value = "";
+            window.setTimeout(function (){
+              psm.style.display = "none";
+            }, 4000);
+          }
+        }
+      )
+    }
+  </script>

@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (friends_view, login_view, signup_view, logout_view, add_friend_view,
-    remove_friend_view, accept_friend_view,
+    remove_friend_view, accept_friend_view, username_availability_view
 )
 
 
@@ -14,4 +14,5 @@ urlpatterns = [
     path('add_friend/', add_friend_view, name = 'add_friend_view'),
     path('remove_friend/', remove_friend_view, name = 'remove_friend_view'),
     path('accept_friend/', accept_friend_view, name = 'accept_friend_view'),
+    path('username_available/', username_availability_view, name = 'username_availability_view'),
 ]

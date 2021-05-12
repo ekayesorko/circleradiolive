@@ -3,12 +3,42 @@
 {% block content %}
     <div class = "ui sixteen column centered grid">
         {% include 'radio/post_song.html' %}
-        
-        <div class = "ui ten column row">
+        <div class = "ui center aligned row">
             <div id="player" class = ""></div>
         </div>
-        <div class = "ui bottom attached message big"> 
-            <p>Suggested by <a href = "" id = "author_username"></a> </p>
+        <div class = "ui stackable sixteen column row">
+            <div class = "ui right aligned eight wide column">
+                <p class = "ui compact message"> This song is suggested by 
+                    <a class = "" href = "" id = "author_username"></a>
+                </p>
+            </div>
+            <div class = "ui left aligned eight wide column">
+                 <div class = "ui small buttons segment elevated">
+                    <button class = "ui labeled icon button" onclick = "playNext()">Next<i class = "icon step forward"></i></button>
+                    <button class = "ui labeled icon button" id = "shareButton" >Share<i class = "icon share alternate"></i></button>
+                    <button class = "ui labeled icon button" id = "removeButton" onclick = "removePostModal()">Remove<i class = "icon remove"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui mini modal">
+        <div class="ui icon header">
+            <i class="archive icon"></i>
+            Remove This Post?
+        </div>
+        <form id = "deleteForm" action="{% url 'radio:post_delete_view' %}" method = "POST" id = "removePostForm">
+                <input type="hidden" name="post_id" id="remove_post_id">
+                {% csrf_token %}
+        </form>
+        <div class="actions">
+            <div class="ui cancel button">
+                <i class="remove icon"></i>
+                Cancel
+            </div>
+            <button class="ui ok button" type = "submit" form = "deleteForm">
+                <i class="checkmark icon"></i>
+                Remove
+            </div>
         </div>
     </div>
 
@@ -20,11 +50,19 @@
         var videoIDs = [];
         var authorList = [];
         var authorURLList = [];
+        var postPKList = [];
+        var username = "{{request.user.username}}";
         {% for post in posts %}
             videoIDs.push( '{{ post.yt_code }}' );
-            authorList.push( ' {{ post.author.username }}');
+            authorList.push( '{{ post.author.username }}');
             authorURLList.push('{% url 'radio:user_radio_view' post.author.username %}')
+            postPKList.push('{{post.pk}}');
         {% endfor %}
         var player, currentVideoId = 0;
+        function removePostModal(){
+            $('.ui.mini.modal')
+                .modal('show')
+            ;
+        }
     </script>
 {% endblock content %}

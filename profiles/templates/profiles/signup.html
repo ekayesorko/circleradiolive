@@ -1,9 +1,12 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-    <div class = "ui grid sixteen column centered">
-        <div class = "ui four wide column">
-            <p class = "ui attached message"> Create a new account </p>
+    <div class = "ui centered doubling grid">
+        <div class = "ui left aligned ten wide column">
+            <div class = "ui attached message">
+                <p class = "header"> Sign Up </p>
+                <p>Create a new account</p> 
+            </div>
             {% if errors %}
                 {% for error in errors %}
                     {{error}}
@@ -12,8 +15,12 @@
             <form method="POST" action="" class = "ui form attached segment">
             {%csrf_token%}
             <div class = "field">
-                <label for="input">Username</label>
-                <input type = "text" name="username">
+                <label for="username_input">Username</label>
+                <input type = "text" name="username" id = "username_input" oninput = "remove_label()" onchange = "username_check()">
+                <div class = "ui pointing label" style = "display: none" id = "username_input_label">
+                    Checking Availability
+                </div>
+                
             </div>
             <div class = "field">
                 <label for="email">Email</label>
@@ -45,4 +52,39 @@
             {% endif %}
         </div>
     </div>
+    <script>
+        var url = "{% url 'profiles:username_availability_view' %}"
+        var input_username_label = document.getElementById("username_input_label");
+        function remove_label(){
+            input_username_label.style.display = "none"
+        }
+        function clearLabelColor(){
+            input_username_label.classList.remove("yellow");
+            input_username_label.classList.remove("green");
+            input_username_label.classList.remove("red");
+        }
+        function username_check(){
+            var input_username = document.getElementById("username_input")
+            input_username.value = input_username.value.toLowerCase()
+            input_username_label.style.display = "inline"
+            input_username_label.innerHTML = "Checking username availability...";
+            clearLabelColor()
+            input_username_label.classList.add("yellow");
+            $.post(
+                url,
+                { "username" : input_username.value},
+                function (data, status){
+                    clearLabelColor();
+                    if(data == "true"){
+                        input_username_label.innerHTML = "Yayyy! '".concat(input_username.value).concat("' is available.");
+                        input_username_label.classList.add("green");
+                    }else{
+                        input_username_label.innerHTML = "Choose a different username.";
+                        input_username_label.classList.add("red");
+                    }
+
+                }
+            )
+        }
+    </script>
 {% endblock content %}

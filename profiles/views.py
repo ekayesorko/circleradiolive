@@ -7,6 +7,7 @@ from .models import Profile, Relationship
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from profiles.decorators import login_forbidden
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -65,6 +66,16 @@ def signup_view(request):
         else:
             messages.error(request, "Invalid Data")
     return render(request, 'profiles/signup.html', context = context)
+
+@csrf_exempt
+def username_availability_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        if len(username) < 4:
+            return HttpResponse("false")
+        if User.objects.filter(username = username).exists():
+            return HttpResponse("false")
+        else: return HttpResponse("true")
 
 @login_required
 def add_friend_view(request):

@@ -3,3 +3,8 @@
 .margin {
     margin-top: 1em !important;
 }
+
+@keyframes focus_blink {
+    25%  {border: yellow !important; border-radius: 4px;}
+    50%  {border: blue !important; border-radius: 4px;}
+}
