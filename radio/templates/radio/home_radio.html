@@ -6,20 +6,30 @@
         <div class = "ui center aligned row">
             <div id="player" class = ""></div>
         </div>
-        <div class = "ui stackable sixteen column row">
-            <div class = "ui right aligned eight wide column">
+        <div class = "ui row segment">
+             <p class = "ui compact message noMargin noPadding"> This song is suggested by 
+                <a class = "" href = "" id = "author_username"></a>
+            </p>
+            <div class = "ui tiny buttons">
+                <button class = "ui labeled icon button" onclick = "playNext()">Skip<i class = "icon step forward"></i></button>
+                <button class = "ui labeled icon button" id = "shareButton" >Share<i class = "icon share alternate"></i></button>
+                <button class = "ui labeled icon button" id = "removeButton" onclick = "removePostModal()">Remove<i class = "icon remove"></i></button>
+            </div>
+        </div>
+        {% comment %} <div class = "ui stackable sixteen column row">
+            <div class = "ui center aligned eight wide column">
                 <p class = "ui compact message"> This song is suggested by 
                     <a class = "" href = "" id = "author_username"></a>
                 </p>
             </div>
-            <div class = "ui left aligned eight wide column">
+            <div class = "ui center aligned eight wide column">
                  <div class = "ui small buttons segment elevated">
                     <button class = "ui labeled icon button" onclick = "playNext()">Next<i class = "icon step forward"></i></button>
                     <button class = "ui labeled icon button" id = "shareButton" >Share<i class = "icon share alternate"></i></button>
                     <button class = "ui labeled icon button" id = "removeButton" onclick = "removePostModal()">Remove<i class = "icon remove"></i></button>
                 </div>
             </div>
-        </div>
+        </div> {% endcomment %}
     </div>
     <div class="ui mini modal">
         <div class="ui icon header">

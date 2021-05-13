@@ -15,6 +15,16 @@
             <form method="POST" action="" class = "ui form attached segment">
             {%csrf_token%}
             <div class = "field">
+                <label for="first_name">First Name</label>
+                <input type="text" name = "first_name">
+            </div>
+            <div class = "field">
+                <label for="last_name">
+                    Last Name
+                </label>
+                <input type="text" name = "last_name">
+            </div>
+            <div class = "field">
                 <label for="username_input">Username</label>
                 <input type = "text" name="username" id = "username_input" oninput = "remove_label()" onchange = "username_check()">
                 <div class = "ui pointing label" style = "display: none" id = "username_input_label">

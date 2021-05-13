@@ -1,4 +1,4 @@
-<div class="ui secondary pointing massive menu">
+<div class="ui secondary pointing big stackable menu">
   <a href="{%url 'radio:home_radio_view' %}" class="ui {% if title == 'home' %} active{% endif %} item">
     Home
   </a>
@@ -11,8 +11,12 @@
   <div class="right menu">
     <div class="item">
       <div class="ui icon input">
-        <input type="text" placeholder="It doesn't work yet. xD">
-        <i class="search link icon"></i>
+        <form action="{% url 'profiles:search_friend_view' %}">
+          <input type="text" placeholder="It might work. xD" name = "query_string">
+          <button type = "submit" class = "ui circular icon button">
+            <i class="search link icon"></i> 
+          </button>
+        </form>
       </div>
     </div>
     <a href="{% url 'profiles:logout_view' %}" class="ui item">

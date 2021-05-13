@@ -1,0 +1,27 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+    <div class = "four wide column cards">
+            <h2>People you may know</h2>
+            {% for user in user_list %}
+                <div class = "ui card">
+                    <div class = "content">
+                        <div class = "header">
+                            <a href="">{{user.username}}</a>
+                        </div>
+                        <div class = "description">
+                            <span>{{user.first_name}} {{user.last_name}}</span>
+                        </div>
+                    </div>
+        
+                    <div class = "ui extra content">
+                        <form action="{% url 'profiles:add_friend_view' %}" method = "POST">
+                            {% csrf_token %}
+                            <input type="hidden" name = "receiver_username" value = "{{user.username}}">
+                            <input type="submit" value = "Add Friend" class = "ui green fluid button">
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+{% endblock content %}

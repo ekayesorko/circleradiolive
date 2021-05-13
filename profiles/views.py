@@ -1,3 +1,4 @@
+from django.contrib.postgres import search
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
 from .forms import SignupForm
@@ -8,6 +9,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from profiles.decorators import login_forbidden
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.postgres.search import SearchVector
 
 
 # Create your views here.
@@ -97,8 +99,22 @@ def remove_friend_view(request):
 
 @login_required
 def accept_friend_view(request):
-    if request.method == 'POST':
+    if request.method == 'POST': 
         friend_username = request.POST.get('friend_username')
         friend = User.objects.get(username = friend_username)
         Relationship.objects.accept_friend_request(friend, request.user)
     return redirect(reverse('profiles:friends_view'))
+
+@login_required
+def search_friend_view(request):
+    query_string = request.GET.get('query_string')
+    print(query_string)
+    user_list = User.objects.annotate(
+        search = SearchVector('username', 'first_name', 'last_name')
+    ).filter(search = query_string)
+    
+    context = {
+        'user_list' : user_list,
+    }
+    return render(request, 'profiles/search_friend_view.html', context)
+    
