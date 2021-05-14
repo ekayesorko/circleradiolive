@@ -2,8 +2,8 @@
 
 {% block content %}
 
-    <div class = "ui grid centered padded segment">
-        <div class = "four wide column cards">
+    <div class = "ui stackable centered grid">
+        <div class = "three wide column">
             <h2>People you may know</h2>
             {% for user in people_you_may_know %}
                 <div class = "ui card">
@@ -26,7 +26,7 @@
                 </div>
             {% endfor %}
         </div>
-        <div class = "four wide column">
+        <div class = "three wide column">
             <h2>Friend List</h2>
             {% for user in friend_list %}
                 <div class = "ui card">
@@ -49,7 +49,7 @@
                 </div>
             {% endfor %}
         </div>
-        <div class = "four wide column">
+        <div class = "three wide column">
             <h2>Friend Request</h2>
             {% for user in friend_request_list %}
                 <div class = "ui card">
@@ -77,7 +77,7 @@
                 </div>
             {% endfor %}
         </div>
-        <div class = "four wide column">
+        <div class = "three wide column">
             <h2> Sent Friend Requests</h2>
             {% for user in sent_friend_request_list %}
                 <div class = "ui card">

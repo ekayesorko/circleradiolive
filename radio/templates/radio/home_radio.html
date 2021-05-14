@@ -31,7 +31,7 @@
             </div>
         </div> {% endcomment %}
     </div>
-    <div class="ui mini modal">
+    <div class="ui mini modal" id = "removeModal">
         <div class="ui icon header">
             <i class="archive icon"></i>
             Remove This Post?
@@ -70,7 +70,7 @@
         {% endfor %}
         var player, currentVideoId = 0;
         function removePostModal(){
-            $('.ui.mini.modal')
+            $('#removeModal')
                 .modal('show')
             ;
         }

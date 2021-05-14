@@ -1,8 +1,9 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-    <div class = "four wide column cards">
-            <h2>People you may know</h2>
+    <div class = "ui centered grid">
+        <div class = "four wide column">
+            <h2>Search Results</h2>
             {% for user in user_list %}
                 <div class = "ui card">
                     <div class = "content">
@@ -24,4 +25,5 @@
                 </div>
             {% endfor %}
         </div>
+    </div>
 {% endblock content %}

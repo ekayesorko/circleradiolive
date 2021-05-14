@@ -9,8 +9,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from profiles.decorators import login_forbidden
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.postgres.search import SearchVector
-
+from django.contrib.postgres.search import SearchVector, TrigramSimilarity
+from django.db.models.functions import Greatest
 
 # Create your views here.
 @login_required
@@ -108,11 +108,9 @@ def accept_friend_view(request):
 @login_required
 def search_friend_view(request):
     query_string = request.GET.get('query_string')
-    print(query_string)
     user_list = User.objects.annotate(
         search = SearchVector('username', 'first_name', 'last_name')
     ).filter(search = query_string)
-    
     context = {
         'user_list' : user_list,
     }

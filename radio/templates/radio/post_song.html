@@ -3,22 +3,44 @@
   {% csrf_token %}
     <h3>Post your favorite song for your friends to enjoy</h3>
     <div class="ui fluid labeled action input">
-      <div class = "ui label">youtube.com/watch?v=</div>
-      <input type="text" name="yt_code" placeholder="Youtube Video ID" size = "11" maxlength = "11" id = "videoIDInput">
-      <button onclick = "post()" type = "button" class="ui button grey" id = "videoPostButton">Post</button>
+      <input type="text" name="yt_code" placeholder="Youtube Link" id = "videoIDInput">
+      <button onclick = "post2()" type = "button" class="ui button grey" id = "videoPostButton">Post</button>
     </div>
   </form>
   <div class = "ui tiny success message" id = "postMessage" style = "display : none">
-  
+  </div>
+</div>
+
+<div class="ui mini modal" id = "postModal">
+  <div class="header"> Post this the song? </div>
+  <div class="content centered">
+    <iframe id = "postModalIframe" >
+    </iframe>
+  </div>
+  <div class="actions">
+    <div class="ui approve button" onclick = "seriouslyPostLol()">Confirm</div>
+    <div class="ui cancel button">Cancel</div>
   </div>
 </div>
 
 <script>
-    function post(){
+
+    var ytCode = "";
+    function post2(){
+      var url = document.getElementById('videoIDInput').value;
+      if(url.startsWith('https://youtu.be/')){
+        ytCode = url.substr(17, 11);
+      }else if(url.startsWith('https://www.youtube.com/watch?v=')){
+        ytCode = url.substr(32, 11);
+      }
+      document.getElementById('postModalIframe').src = "https://www.youtube.com/embed/".concat(ytCode).concat("?autoplay=1&mute=1");
+      $("#postModal").modal('show');
+    }
+
+    function seriouslyPostLol(){
       var psm = document.getElementById("postMessage");
       psm.innerHTML = "Posting song";
       psm.style.display = "inline";
-      var ytCode = document.getElementById('videoIDInput').value;
       var csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
       $.post(
         "{% url 'radio:post_upload_view' %}",
