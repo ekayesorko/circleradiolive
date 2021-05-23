@@ -59,6 +59,18 @@ class RelationshipManager(models.Manager):
         )
         return relationship.exists()
 
+    def relationship_status(self, own, another):
+        if(own == another): 
+            return "same_person"
+        if(Relationship.objects.relation_existence_check(own, another) == False):
+            return "no_relation"
+        if(Relationship.objects.friend_existence_check(own, another)):
+            return "friend"
+        if(Relationship.objects.filter(sender = own, receiver = another, status = 'pending')):
+            return "request_sent"
+        if(Relationship.objects.filter(sender = another, receiver = own, status = 'pending')):
+            return "request_received"
+
     def get_friend_request_list(self, user):
         sender_id_list = Relationship.objects.filter(receiver=user, status = 'pending').values_list('sender')
         sender_user_list = []
@@ -87,6 +99,10 @@ class RelationshipManager(models.Manager):
             friend_list.append(User.objects.get(pk = friend_pk))
         return friend_list
 
+    def get_friend_count(self, user):
+        return Relationship.objects.filter(
+            (models.Q(receiver = user) | models.Q(sender = user)) & models.Q(status = 'accepted')
+            ).count()
 
 
 class Relationship(models.Model):

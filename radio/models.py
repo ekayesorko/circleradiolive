@@ -16,6 +16,7 @@ class PostManager (models.Manager):
             friend_posts = Post.objects.filter(author = friend)
             posts = posts.union(friend_posts)
         return posts.order_by('-time')[:total_post]
+    
 
 class Post(models.Model):
     author = models.ForeignKey(User, on_delete = models.CASCADE, related_name = 'posts')

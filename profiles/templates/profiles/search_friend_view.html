@@ -4,7 +4,7 @@
     <div class = "ui centered grid">
         <div class = "four wide column">
             <h2>Search Results</h2>
-            {% for user in user_list %}
+            {% for user, relationship in user_data %}
                 <div class = "ui card">
                     <div class = "content">
                         <div class = "header">
@@ -14,13 +14,42 @@
                             <span>{{user.first_name}} {{user.last_name}}</span>
                         </div>
                     </div>
-        
                     <div class = "ui extra content">
-                        <form action="{% url 'profiles:add_friend_view' %}" method = "POST">
-                            {% csrf_token %}
-                            <input type="hidden" name = "receiver_username" value = "{{user.username}}">
-                            <input type="submit" value = "Add Friend" class = "ui green fluid button">
-                        </form>
+                        {% if relationship == 'friend' %}
+                            <form action="{% url 'profiles:remove_friend_view' %}" method = "POST">
+                                {% csrf_token %}
+                                <input type="hidden" name = "friend_username" value = "{{user.username}}">
+                                <input type="submit" value = "Remove Friend" class = "ui button">    
+                            </form>
+                        {% endif %}
+                        {% if relationship == 'request_sent' %}
+                            <form action="{% url 'profiles:remove_friend_view' %}" method = "POST">
+                                {% csrf_token %}
+                                <input type="hidden" name = "friend_username" value = "{{user.username}}">
+                                <input type="submit" value = "Cancel Request" class = "ui button">
+                            </form>
+                        {% endif %}
+                        {% if relationship == 'request_received' %}
+                            <div class = "ui buttons">
+                                <form action="{% url 'profiles:accept_friend_view' %}" method = "POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name = "friend_username" value = "{{user.username}}">
+                                    <input type="submit" value = "Accept" class = "ui button">
+                                </form>
+                                <form action="{% url 'profiles:remove_friend_view' %}" method = "POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name = "friend_username" value = "{{user.username}}">
+                                    <input type="submit" value = "Remove" class = "ui button">
+                                </form>
+                            </div>
+                        {% endif %}
+                        {% if relationship == 'no_relation' %}
+                            <form action="{% url 'profiles:add_friend_view' %}" method = "POST">
+                                {% csrf_token %}
+                                <input type="hidden" name = "friend_username" value = "{{user.username}}">
+                                <input type="submit" value = "Send Friend Request" class = "ui button">
+                            </form>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}

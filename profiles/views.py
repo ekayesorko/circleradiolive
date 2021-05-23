@@ -111,8 +111,21 @@ def search_friend_view(request):
     user_list = User.objects.annotate(
         search = SearchVector('username', 'first_name', 'last_name')
     ).filter(search = query_string)
+    relation_list = []
+    for user in user_list:
+        relation_list.append(
+            Relationship.objects.relationship_status(request.user, user)
+        )
+    print(len(relation_list))
+    user_data = zip(user_list, relation_list)
     context = {
-        'user_list' : user_list,
+        'user_data' : user_data,
     }
     return render(request, 'profiles/search_friend_view.html', context)
+
+@login_required
+def edit_profile_view(request):
+    profile = Profile.objects.get(user = request.user)
+    return HttpResponse(profile)
+
     

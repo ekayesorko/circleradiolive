@@ -2,21 +2,130 @@
 
 {% block content %}
     <div class = "ui sixteen column centered grid">
-        <div class = "ui ten column row">
-            <div id="player" class = ""></div>
+        <div class = "ui five wide column">
+            <h3 class="ui header center aligned">
+                {{page_user.first_name}} {{ page_user.last_name}} 
+            </h3>
+            <div class = "ui list">
+                <div class = "item">
+                    <i class = "users icon"></i>
+                    <div class = "content">
+                        {{page_user.username}}
+                    </div>
+                </div>
+                <div class = "item">
+                    <i class = "users icon"></i>
+                    <div class = "content">
+                    {{friend_count}} friends.
+                    </div>
+                </div>
+                <div class = "item">
+                    <i class = "users icon"></i>
+                    <div class = "content">
+                    {{post_count}} posts.
+                    </div>
+                </div>
+            </div>
+            {% if relationship == 'friend' %}
+                <form action="{% url 'profiles:remove_friend_view' %}" method = "POST">
+                    {% csrf_token %}
+                    <input type="hidden" name = "friend_username" value = "{{page_user.username}}">
+                    <input type="submit" value = "Remove Friend" class = "ui button">    
+                </form>
+            {% endif %}
+            {% if relationship == 'request_sent' %}
+                <form action="{% url 'profiles:remove_friend_view' %}" method = "POST">
+                    {% csrf_token %}
+                    <input type="hidden" name = "friend_username" value = "{{page_user.username}}">
+                    <input type="submit" value = "Cancel Request" class = "ui button">
+                </form>
+            {% endif %}
+            {% if relationship == 'request_received' %}
+                <div class = "ui buttons">
+                     <form action="{% url 'profiles:accept_friend_view' %}" method = "POST">
+                        {% csrf_token %}
+                        <input type="hidden" name = "friend_username" value = "{{page_user.username}}">
+                        <input type="submit" value = "Accept" class = "ui button">
+                    </form>
+                    <form action="{% url 'profiles:remove_friend_view' %}" method = "POST">
+                        {% csrf_token %}
+                        <input type="hidden" name = "friend_username" value = "{{page_user.username}}">
+                        <input type="submit" value = "Remove" class = "ui button">
+                    </form>
+                </div>
+            {% endif %}
+            {% if relationship == 'no_relation' %}
+                 <form action="{% url 'profiles:add_friend_view' %}" method = "POST">
+                    {% csrf_token %}
+                    <input type="hidden" name = "friend_username" value = "{{page_user.username}}">
+                    <input type="submit" value = "Send Friend Request" class = "ui button">
+                </form>
+            {% endif %}
+            {% if relationship == 'same_person' %}
+                {% include 'radio/post_song.html' %}
+            {% endif %}
+
         </div>
+        {% if relationship == 'friend' or relationship == 'same_person' %}
+            <div class = "ui ten wide center aligned column">
+                <div id="player" class = ""></div>
+                <div class = "ui row">
+                    <p class = "ui compact message noMargin noPadding" style = "display:none"> {% comment  %} no need lool{% endcomment %} This song is suggested by 
+                        <a class = "" href = "" id = "author_username"></a>
+                    </p>
+                    <div class = "ui tiny buttons">
+                        <button class = "ui labeled icon button" onclick = "playNext()">Skip<i class = "icon step forward"></i></button>
+                        <button class = "ui labeled icon button" id = "shareButton" >Share<i class = "icon share alternate"></i></button>
+                        <button class = "ui labeled icon button" id = "removeButton" onclick = "removePostModal()">Remove<i class = "icon remove"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="ui mini modal" id = "removeModal">
+                <div class="ui icon header">
+                    <i class="archive icon"></i>
+                    Remove This Post?
+                </div>
+                <form id = "deleteForm" action="{% url 'radio:post_delete_view' %}" method = "POST" id = "removePostForm">
+                        <input type="hidden" name="post_id" id="remove_post_id">
+                        {% csrf_token %}
+                </form>
+                <div class="actions">
+                    <div class="ui cancel button">
+                        <i class="remove icon"></i>
+                        Cancel
+                    </div>
+                    <button class="ui ok button" type = "submit" form = "deleteForm">
+                        <i class="checkmark icon"></i>
+                        Remove
+                    </div>
+                </div>
+            </div>
+            <script>
+            var tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            var firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+            var videoIDs = [];
+            var authorList = [];
+            var authorURLList = [];
+            var postPKList = [];
+            var username = "{{request.user.username}}";
+            {% for post in posts %}
+                videoIDs.push( '{{ post.yt_code }}' );
+                authorList.push( '{{ post.author.username }}');
+                authorURLList.push('{% url 'radio:user_radio_view' post.author.username %}')
+                postPKList.push('{{post.pk}}');
+            {% endfor %}
+            var player, currentVideoId = 0;    
+            function removePostModal(){
+                $('#removeModal')
+                    .modal('show')
+                ;
+            }
+        </script>
+        {% endif %}
     </div>
 
-    <script>
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-        var videoIDs = [];
-        {% for post in posts %}
-            videoIDs.push( '{{ post.yt_code }}' );
-        {% endfor %}
-        var player, currentVideoId = 0;    
-    </script>
+    
 {% endblock content %}
 

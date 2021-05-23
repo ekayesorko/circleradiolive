@@ -10,6 +10,21 @@ class RelationshipTestCase(TestCase):
         d = User.objects.create(username = 'd')
         return (a,b,c,d)
 
+    def test_relationship_status(self):
+        a, b, c, d = self.create_users()
+        e = User.objects.create(username = 'e')
+        Relationship.objects.send_friend_request(a, b)
+        Relationship.objects.send_friend_request(a,c)
+        Relationship.objects.accept_friend_request(a, b)
+        Relationship.objects.send_friend_request(d, a)
+        self.assertEqual(Relationship.objects.relationship_status(a, b), "friend")
+        self.assertEqual(Relationship.objects.relationship_status(a, c), "request_sent")
+        self.assertEqual(Relationship.objects.relationship_status(a, d), "request_received")
+        self.assertEqual(Relationship.objects.relationship_status(a, e), "no_relation")
+        self.assertEqual(Relationship.objects.relationship_status(a, a), "same_person")
+
+
+
     def test_relationship_existence(self):
         a,b,c,d = self.create_users()
         Relationship.objects.send_friend_request(a, b)

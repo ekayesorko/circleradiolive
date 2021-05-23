@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.http import HttpResponse
+from profiles.models import Relationship
 from radio.models import Post
 from django.contrib.auth.models import User
 from profiles.decorators import friendship_or_ownership_required
@@ -34,13 +35,23 @@ def post_delete_view(request):
             post.delete()
     return redirect(reverse('radio:home_radio_view'))
 
-@friendship_or_ownership_required
+@login_required
 def user_radio_view(request, username):
-    user = get_object_or_404(User, username = username)
-    posts = Post.objects.get_all_posts(user)
-    print(posts)
+    page_user = get_object_or_404(User, username = username)
+    relationship = Relationship.objects.relationship_status(request.user, page_user)
+    friend_count = Relationship.objects.get_friend_count(user = page_user)
+    posts = []
+    if relationship == 'friend' or relationship == 'same_person':
+        posts = Post.objects.get_all_posts(page_user)
+    if relationship == 'same_person':
+        title = "profile"
+    else: title = page_user.username
     context = {
-        'title' : "profile",
-        'posts' : posts
+        'title' : title,
+        'page_user' : page_user,
+        'relationship' : relationship,
+        'friend_count' : friend_count,
+        'posts' : posts,
+        'post_count' : len(posts),
     }
     return render(request, 'radio/user_radio.html', context)
